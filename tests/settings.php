@@ -27,6 +27,7 @@ function checked($x){if($x)echo 'checked';}
 require dirname(__DIR__).'/seo-instantindex.php';
 function verify($condition,$message){if(!$condition)throw new Exception($message);}
 function save($extra=[]){$_POST=array_merge(['hcin_action'=>'save_settings','post_types'=>['post'],'google_enabled'=>'1','indexnow_enabled'=>'1'],$extra);try{($GLOBALS['hooks']['admin_init'])();}catch(Redirected $e){return;}throw new Exception('Expected redirect');}
+verify(hcin_settings()['post_types']===['post','page'],'Defaults must only include posts and pages');
 $original=json_encode(['client_email'=>'fixture@example.test','private_key'=>'FAKE_PRIVATE_KEY_OLD']);
 $opts[HCIN_OPT]=['google_sa_json'=>$original,'post_types'=>['post'],'indexnow_enabled'=>true,'google_enabled'=>true];
 save();verify($opts[HCIN_OPT]['google_sa_json']===$original,'Unrelated save lost credential');

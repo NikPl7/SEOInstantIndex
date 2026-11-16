@@ -26,7 +26,7 @@ function hcin_settings(): array {
         'indexnow_key_url' => '',
         'google_enabled'   => true,
         'google_sa_json'   => '',
-        'post_types'       => [ 'post', 'page', 'tg_casino', 'tg_game', 'tg_game_type' ],
+        'post_types'       => [ 'post', 'page' ],
     ];
     return array_merge( $defaults, $saved );
 }
@@ -560,7 +560,7 @@ function hcin_admin_page(): void {
                         <input type="hidden" name="current_tab" value="submit">
                         <p style="color:#666;font-size:13px;margin-top:0">По одному URL на строку</p>
                         <textarea name="hcin_urls" rows="10" style="width:100%;font-family:monospace;font-size:13px"
-                            placeholder="https://hopcott.net/casino-ratings/&#10;https://hopcott.net/blog/"></textarea>
+                            placeholder="https://example.com/article/&#10;https://example.com/about/"></textarea>
                         <p><button type="submit" class="button button-primary">Отправить</button></p>
                     </form>
                 </div>
