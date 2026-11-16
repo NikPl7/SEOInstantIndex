@@ -1,6 +1,6 @@
 # SEO InstantIndex
 
-**by [NewTrait](https://newtrait.com)**
+**by [impik.dev](https://impik.dev)**
 
 WordPress-плагин для мгновенной отправки URL в **IndexNow** (Bing, Yandex, Seznam, Naver) и **Google Indexing API** при публикации и обновлении контента.
 
@@ -44,6 +44,8 @@ WordPress-плагин для мгновенной отправки URL в **Ind
 ---
 
 ## Настройка Google Indexing API
+
+Google разрешает этот API для страниц вакансий с `JobPosting` и видеотрансляций с `BroadcastEvent` внутри `VideoObject`. Для обычных статей и страниц он не является универсальным способом индексации. Отправка URL не гарантирует попадания в поиск. [Ограничения Google](https://developers.google.com/search/apis/indexing-api/v3/quickstart).
 
 1. Откройте [Google Cloud Console](https://console.cloud.google.com/)
 2. Создайте проект → включите **Indexing API**
@@ -121,4 +123,8 @@ MIT License — свободное использование и модифик�
 
 ---
 
-*SEO InstantIndex разработан командой [NewTrait](https://newtrait.com)*
+*SEO InstantIndex разработан командой [impik.dev](https://impik.dev)*
+
+## 1.2.1 — 17.11.2026
+
+Разработчик — impik.dev. Сохранённый ключ Google больше не выводится в HTML формы; пустое поле сохраняет ключ, удаление выполняется отдельной галочкой. Исправлено сохранение настроек и сброс кэшированного токена при смене ключа. Существующие slug, настройки и функции сохранены.

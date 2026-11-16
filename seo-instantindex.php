@@ -1,9 +1,10 @@
 <?php
 /**
  * Plugin Name: SEO InstantIndex
- * Description: Плагин NewTrait для мгновенной отправки URL в IndexNow (Bing, Yandex, Seznam, Naver) и Google Indexing API при публикации и обновлении контента. Инструменты → SEO InstantIndex.
- * Version: 1.2.0
- * Author: NewTrait
+ * Description: Плагин impik.dev для мгновенной отправки URL в IndexNow (Bing, Yandex, Seznam, Naver) и Google Indexing API при публикации и обновлении контента. Инструменты → SEO InstantIndex.
+ * Version: 1.2.1
+ * Author: impik.dev
+ * Author URI: https://impik.dev
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -259,8 +260,9 @@ add_action( 'admin_menu', function () {
 add_action( 'admin_init', function () {
     if ( ! isset( $_POST['hcin_action'] ) || ! current_user_can( 'manage_options' ) || ! check_admin_referer( 'hcin_nonce' ) ) return;
 
-    $action  = sanitize_text_field( $_POST['hcin_action'] );
-    $cur_tab = sanitize_text_field( $_POST['current_tab'] ?? 'settings' );
+    $action  = sanitize_text_field( wp_unslash( $_POST['hcin_action'] ) );
+    $cur_tab = sanitize_key( wp_unslash( $_POST['current_tab'] ?? 'settings' ) );
+    if ( ! in_array( $cur_tab, [ 'settings', 'submit', 'log' ], true ) ) $cur_tab = 'settings';
 
     if ( $action === 'generate_key' ) {
         $result = hcin_generate_key();
@@ -281,23 +283,40 @@ add_action( 'admin_init', function () {
 
     if ( $action === 'save_settings' ) {
         $all_cpt = array_keys( hcin_all_post_types() );
-        $chosen  = array_intersect( (array) ( $_POST['post_types'] ?? [] ), $all_cpt );
+        $chosen  = array_intersect( array_map( 'sanitize_key', (array) wp_unslash( $_POST['post_types'] ?? [] ) ), $all_cpt );
         $s       = hcin_settings();
+        // Service Account JSON: пустое поле = оставить сохранённый; JSON не выводится обратно в форму.
+        $sa_new  = trim( (string) wp_unslash( $_POST['google_sa_json'] ?? '' ) );
+        $sa_save = $s['google_sa_json'];
+        $sa_err  = '';
+        if ( ! empty( $_POST['google_sa_remove'] ) ) {
+            $sa_save = '';
+        } elseif ( $sa_new !== '' ) {
+            $sa_chk = json_decode( $sa_new, true );
+            if ( is_array( $sa_chk ) && ! empty( $sa_chk['client_email'] ) && ! empty( $sa_chk['private_key'] ) ) {
+                $sa_save = $sa_new;
+            } else {
+                $sa_err = 'Неверный Service Account JSON — прежнее значение сохранено.';
+            }
+        }
         update_option( HCIN_OPT, array_merge( $s, [
             'indexnow_enabled' => ! empty( $_POST['indexnow_enabled'] ),
-            'indexnow_key'     => sanitize_text_field( $_POST['indexnow_key'] ?? $s['indexnow_key'] ),
-            'indexnow_key_url' => esc_url_raw( $_POST['indexnow_key_url'] ?? $s['indexnow_key_url'] ),
+            'indexnow_key'     => isset( $_POST['indexnow_key'] ) ? preg_replace( '/[^A-Za-z0-9\-]/', '', wp_unslash( $_POST['indexnow_key'] ) ) : $s['indexnow_key'],
+            'indexnow_key_url' => isset( $_POST['indexnow_key_url'] ) ? esc_url_raw( wp_unslash( $_POST['indexnow_key_url'] ) ) : $s['indexnow_key_url'],
             'google_enabled'   => ! empty( $_POST['google_enabled'] ),
-            'google_sa_json'   => wp_unslash( $_POST['google_sa_json'] ?? '' ),
+            'google_sa_json'   => $sa_save,
             'post_types'       => array_values( $chosen ),
         ] ) );
-        set_transient( 'hcin_flash', [ 'type' => 'success', 'msg' => 'Настройки сохранены.' ], 30 );
+        delete_transient( 'hcin_google_token' );
+        set_transient( 'hcin_flash', $sa_err
+            ? [ 'type' => 'error', 'msg' => $sa_err ]
+            : [ 'type' => 'success', 'msg' => 'Настройки сохранены.' ], 30 );
         $cur_tab = 'settings';
     }
 
     if ( $action === 'submit_custom' ) {
-        $raw  = sanitize_textarea_field( $_POST['hcin_urls'] ?? '' );
-        $urls = array_filter( array_map( 'trim', explode( "\n", $raw ) ) );
+        $raw  = sanitize_textarea_field( wp_unslash( $_POST['hcin_urls'] ?? '' ) );
+        $urls = array_filter( array_map( 'esc_url_raw', array_map( 'trim', explode( "\n", $raw ) ) ) );
         if ( $urls ) {
             $r = hcin_dispatch( array_values( $urls ), 'manual' );
             set_transient( 'hcin_flash', [ 'type' => 'success', 'msg' => hcin_result_text( $r ) ], 30 );
@@ -329,7 +348,7 @@ add_action( 'admin_init', function () {
         $cur_tab = 'log';
     }
 
-    wp_redirect( admin_url( 'tools.php?page=hopcott-indexnow&tab=' . $cur_tab ) );
+    wp_safe_redirect( admin_url( 'tools.php?page=hopcott-indexnow&tab=' . $cur_tab ) );
     exit;
 } );
 
@@ -361,7 +380,7 @@ function hcin_all_post_types(): array {
 
 function hcin_admin_page(): void {
     $s     = hcin_settings();
-    $tab   = sanitize_text_field( $_GET['tab'] ?? 'settings' );
+    $tab   = sanitize_key( wp_unslash( $_GET['tab'] ?? 'settings' ) );
     $flash = get_transient( 'hcin_flash' );
     if ( $flash ) delete_transient( 'hcin_flash' );
     $log   = get_option( HCIN_LOG_OPT, [] );
@@ -375,7 +394,7 @@ function hcin_admin_page(): void {
     }
     ?>
     <div class="wrap">
-        <h1>SEO InstantIndex <span style="font-size:14px;font-weight:400;color:#666">by NewTrait · v1.2.0</span></h1>
+        <h1>SEO InstantIndex <span style="font-size:14px;font-weight:400;color:#666">by impik.dev · v1.2.1</span></h1>
 
         <nav class="nav-tab-wrapper" style="margin-bottom:20px">
             <?php foreach ( $tabs as $key => $label ) : ?>
@@ -399,12 +418,15 @@ function hcin_admin_page(): void {
                     <input type="hidden" name="hcin_action" value="save_settings">
                     <input type="hidden" name="current_tab" value="settings">
                     <!-- передаём остальные поля скрыто чтобы не сбросить -->
-                    <input type="hidden" name="google_sa_json" value="<?php echo esc_attr( $s['google_sa_json'] ); ?>">
                     <?php foreach ( $s['post_types'] as $pt ) : ?>
                         <input type="hidden" name="post_types[]" value="<?php echo esc_attr( $pt ); ?>">
                     <?php endforeach; ?>
+                    <input type="hidden" name="indexnow_key" value="<?php echo esc_attr( $s['indexnow_key'] ); ?>">
+                    <input type="hidden" name="indexnow_key_url" value="<?php echo esc_attr( $s['indexnow_key_url'] ); ?>">
+                    <?php if ( $s['google_enabled'] ) : ?><input type="hidden" name="google_enabled" value="1"><?php endif; ?>
                     <label><input type="checkbox" name="indexnow_enabled" value="1" <?php checked( $s['indexnow_enabled'] ); ?>>
                         <strong>Включить IndexNow</strong></label>
+                    <button type="submit" class="button" style="margin-left:12px">Сохранить</button>
                 </form>
 
                 <!-- Ключ -->
@@ -491,8 +513,11 @@ function hcin_admin_page(): void {
 
                     <textarea name="google_sa_json" rows="6" style="width:100%;font-family:monospace;font-size:12px;margin-top:8px"
                         placeholder='{"type":"service_account","project_id":"...","private_key":"-----BEGIN PRIVATE KEY-----\n...","client_email":"...@....iam.gserviceaccount.com",...}'><?php
-                        echo esc_textarea( $s['google_sa_json'] );
                     ?></textarea>
+                    <?php if ( $s['google_sa_json'] ) : ?>
+                        <p style="color:#666;font-size:12px">Сохранённый ключ не показывается. Оставьте поле пустым, чтобы не менять его, или вставьте новый JSON.</p>
+                        <label><input type="checkbox" name="google_sa_remove" value="1"> Удалить сохранённый Service Account JSON</label>
+                    <?php endif; ?>
                     <p><button type="submit" class="button button-primary">Сохранить</button></p>
                 </form>
             </div>
@@ -507,7 +532,6 @@ function hcin_admin_page(): void {
                     <input type="hidden" name="current_tab" value="settings">
                     <input type="hidden" name="indexnow_key" value="<?php echo esc_attr( $s['indexnow_key'] ); ?>">
                     <input type="hidden" name="indexnow_key_url" value="<?php echo esc_attr( $s['indexnow_key_url'] ); ?>">
-                    <input type="hidden" name="google_sa_json" value="<?php echo esc_attr( $s['google_sa_json'] ); ?>">
                     <?php if ( $s['indexnow_enabled'] ) : ?><input type="hidden" name="indexnow_enabled" value="1"><?php endif; ?>
                     <?php if ( $s['google_enabled'] ) : ?><input type="hidden" name="google_enabled" value="1"><?php endif; ?>
 
