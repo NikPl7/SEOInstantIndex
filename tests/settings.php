@@ -83,7 +83,7 @@ verify( strpos( $html, 'impik.dev' ) !== false, 'Author not shown' );
 verify( strpos( $html, 'Как подключить Google' ) !== false, 'Google setup help missing' );
 verify( hcin_admin_design_css( [] ) === '', 'Default design must work without a theme' );
 verify( hcin_admin_design_css( [ 'accent' => '#222222', 'radius' => 14, 'font_family' => 'Exo 2, system-ui' ] )
-    === '--hcin-accent:#222222;--hcin-accent-ink:#fff;--hcin-radius:14px;--hcin-font:Exo 2, system-ui;', 'Theme overrides not applied' );
+    === '--hcin-accent:#222222;--hcin-accent-ink:#fff;--hcin-radius:14px;--hcin-font:Exo 2, system-ui;--hcin-display:var(--hcin-font);', 'Theme overrides not applied' );
 verify( hcin_admin_design_css( [ 'accent' => '#fff; }', 'radius' => 80, 'font_family' => 'url(https://example.test)' ] ) === '', 'Invalid design tokens must be ignored' );
 save( [ 'google_sa_remove' => '1' ] );
 verify( $opts[HCIN_OPT]['google_sa_json'] === '', 'Explicit removal failed' );

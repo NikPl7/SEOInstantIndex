@@ -56,4 +56,4 @@ add_filter( 'hcin_admin_design_tokens', static function ( array $tokens ): array
 - **1.2.1** — сохранённый ключ Google больше не выводится в HTML. Исправлено сохранение настроек и обновление токена.
 - **1.2.0** — автоматическое создание и проверка файла ключа IndexNow.
 
-Лицензия MIT.
+Код плагина распространяется по лицензии MIT. Шрифты Exo 2 и Unbounded поставляются по SIL Open Font License 1.1. Тексты лицензий находятся в `assets/fonts/`.

@@ -33,7 +33,7 @@ function hcin_admin_design_css( array $tokens ): string {
     }
     $font = $tokens['font_family'] ?? null;
     if ( is_string( $font ) && preg_match( '/^[a-z0-9][a-z0-9 ,_-]{0,119}$/iD', $font ) ) {
-        $css .= '--hcin-font:' . $font . ';';
+        $css .= '--hcin-font:' . $font . ';--hcin-display:var(--hcin-font);';
     }
     return $css;
 }
