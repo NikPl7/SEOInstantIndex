@@ -1,0 +1,294 @@
+.hcin_admin {
+    --hcin-ink: #1d2327;
+    --hcin-muted: #50575e;
+    --hcin-border: #dcdcde;
+    --hcin-field-border: #8c8f94;
+    --hcin-surface: #fff;
+    --hcin-accent: var(--wp-admin-theme-color, #2271b1);
+    --hcin-accent-hover: var(--wp-admin-theme-color-darker-10, #135e96);
+    --hcin-accent-soft: #f0f6fc;
+    --hcin-neutral: #f0f0f1;
+    --hcin-on: #006b28;
+    --hcin-on-soft: #edfaef;
+    --hcin-error: #b32d2e;
+    --hcin-radius: 12px;
+    --hcin-gap: 20px;
+    color: var(--hcin-ink);
+}
+
+.hcin_admin h1,
+.hcin_admin h2 {
+    color: inherit;
+}
+
+.hcin_admin h2 {
+    font-size: 18px;
+    line-height: 1.3;
+    margin: 0;
+}
+
+.hcin_header {
+    background: var(--hcin-surface);
+    border: 1px solid var(--hcin-border);
+    border-radius: var(--hcin-radius);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--hcin-gap);
+    margin-top: var(--hcin-gap);
+    padding: 24px;
+}
+
+.hcin_brand {
+    color: var(--hcin-accent-hover);
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.hcin_brand:hover {
+    text-decoration: underline;
+}
+
+.hcin_header h1 {
+    font-size: clamp(24px, 4vw, 32px);
+    font-weight: 650;
+    line-height: 1.15;
+    margin: 8px 0;
+    padding: 0;
+}
+
+.hcin_header p,
+.hcin_subtitle {
+    color: var(--hcin-muted);
+    font-size: 13px;
+    margin: 6px 0 0;
+}
+
+.hcin_queue {
+    background: var(--hcin-accent-soft);
+    border-radius: calc(var(--hcin-radius) - 4px);
+    display: grid;
+    justify-items: center;
+    gap: 4px;
+    flex: 0 0 auto;
+    min-width: 86px;
+    padding: 10px;
+}
+
+.hcin_queue strong {
+    color: var(--hcin-accent);
+    font-size: 22px;
+    line-height: 1.15;
+    font-variant-numeric: tabular-nums;
+}
+
+.hcin_nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: var(--hcin-gap) 0;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--hcin-border);
+}
+
+.hcin_nav a {
+    color: var(--hcin-muted);
+    display: inline-block;
+    font-weight: 600;
+    text-decoration: none;
+    padding: 8px 12px;
+    border-radius: calc(var(--hcin-radius) - 4px);
+}
+
+.hcin_nav a:hover,
+.hcin_nav a[aria-current="page"] {
+    background: var(--hcin-accent-soft);
+    color: var(--hcin-accent);
+}
+
+.hcin_admin :is(a, button, input, textarea):focus-visible {
+    outline: 2px solid var(--hcin-accent);
+    outline-offset: 2px;
+}
+
+.hcin_admin .hcin_notice {
+    margin: 0 0 var(--hcin-gap);
+}
+
+.hcin_grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--hcin-gap);
+}
+
+.hcin_card {
+    background: var(--hcin-surface);
+    border: 1px solid var(--hcin-border);
+    border-radius: var(--hcin-radius);
+    min-width: 0;
+    padding: 22px;
+}
+
+.hcin_card-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px 12px;
+}
+
+.hcin_status {
+    background: var(--hcin-neutral);
+    color: var(--hcin-muted);
+    font-weight: 600;
+    padding: 3px 9px;
+    border-radius: 999px;
+}
+
+.hcin_status-on {
+    background: var(--hcin-on-soft);
+    color: var(--hcin-on);
+}
+
+.hcin_check {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.hcin_check input[type="checkbox"] {
+    flex: 0 0 auto;
+    margin: 0;
+}
+
+.hcin_field {
+    display: block;
+    font-weight: 600;
+    margin: 16px 0 5px;
+}
+
+.hcin_card input[type="text"],
+.hcin_card input[type="url"],
+.hcin_card textarea {
+    border-color: var(--hcin-field-border);
+    border-radius: 6px;
+    box-sizing: border-box;
+    display: block;
+    width: 100%;
+    margin: 0;
+}
+
+.hcin_card textarea {
+    font-family: ui-monospace, Consolas, monospace;
+    resize: vertical;
+}
+
+.hcin_card p + textarea {
+    margin-top: 8px;
+}
+
+.hcin_card code,
+.hcin_table td {
+    overflow-wrap: anywhere;
+}
+
+.hcin_types {
+    margin: 18px 0 0;
+}
+
+.hcin_types legend {
+    font-weight: 600;
+}
+
+.hcin_actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 14px;
+}
+
+.hcin_admin .button-primary {
+    background: var(--hcin-accent);
+    border-color: var(--hcin-accent);
+}
+
+.hcin_admin .button-primary:not(:disabled):hover {
+    background: var(--hcin-accent-hover);
+    border-color: var(--hcin-accent-hover);
+}
+
+.hcin_table {
+    margin-top: 14px;
+    overflow: auto;
+}
+
+.hcin_table table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.hcin_table :is(th, td) {
+    border-bottom: 1px solid var(--hcin-border);
+    padding: 10px;
+    text-align: left;
+    vertical-align: top;
+}
+
+.hcin_table th {
+    color: var(--hcin-muted);
+}
+
+.hcin_table tr > :first-child {
+    min-width: 94px;
+}
+
+.hcin_http {
+    color: var(--hcin-muted);
+    display: block;
+}
+
+.hcin_result-ok {
+    color: var(--hcin-on);
+}
+
+.hcin_result-error {
+    color: var(--hcin-error);
+}
+
+@media (max-width: 1050px) {
+    .hcin_grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    .hcin_header,
+    .hcin_card {
+        padding: 14px;
+    }
+
+    .hcin_header {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .hcin_queue {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 10px;
+    }
+
+    .hcin_queue strong {
+        font-size: 16px;
+    }
+
+    .hcin_card input[type="text"],
+    .hcin_card input[type="url"],
+    .hcin_card textarea {
+        font-size: 16px;
+    }
+}
