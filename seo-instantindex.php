@@ -1,8 +1,8 @@
 <?php
 /**
  * Plugin Name: SEO InstantIndex
- * Description: Отправляет URL в IndexNow и Google Indexing API. Настройки доступны в разделе «Инструменты».
- * Version: 1.3.3
+ * Description: Плагин для отправки URL в IndexNow (Bing, Yandex, Seznam, Naver) и Google Indexing API при публикации и обновлении контента. Инструменты → SEO InstantIndex.
+ * Version: 1.3.4
  * Requires at least: 5.6
  * Requires PHP: 7.4
  * Author: impik.dev
@@ -11,7 +11,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'HCIN_VERSION', '1.3.3' );
+define( 'HCIN_VERSION', '1.3.4' );
 define( 'HCIN_OPT', 'hopcott_indexnow_settings' );
 define( 'HCIN_LOG_OPT', 'hopcott_indexnow_log' );
 define( 'HCIN_LOG_MAX', 300 );
