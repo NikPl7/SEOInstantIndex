@@ -80,6 +80,8 @@ hcin_admin_page();
 $html = ob_get_clean();
 verify( strpos( $html, 'FAKE_PRIVATE_KEY_NEW' ) === false, 'Private key leaked to HTML' );
 verify( strpos( $html, 'impik.dev' ) !== false, 'Author not shown' );
+verify( preg_match( '/<hr class="wp-header-end">\s*<div class="hcin_admin">/', $html ) === 1, 'WordPress notices need an anchor outside plugin styling' );
+verify( strpos( $html, 'notice notice-error inline hcin_notice' ) !== false, 'Plugin feedback must stay below its tabs' );
 verify( strpos( $html, 'Как подключить Google' ) !== false, 'Google setup help missing' );
 verify( hcin_admin_design_css( [] ) === '', 'Default design must work without a theme' );
 verify( hcin_admin_design_css( [ 'accent' => '#222222', 'radius' => 14, 'font_family' => 'Exo 2, system-ui' ] )

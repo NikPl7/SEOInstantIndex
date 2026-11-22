@@ -468,38 +468,41 @@ function hcin_admin_page(): void {
     $table = hcin_queue_table();
     $pending = get_option( 'hcin_queue_schema' ) === HCIN_QUEUE_SCHEMA ? (int) $wpdb->get_var( "SELECT COUNT(*) FROM $table" ) : 0;
     ?>
-    <div class="wrap hcin_admin">
-        <header class="hcin_header">
-            <div>
-                <a class="hcin_brand" href="https://impik.dev">impik.dev</a>
-                <h1>SEO InstantIndex</h1>
-                <p>Сообщайте поисковым системам о новых и обновлённых страницах.</p>
-            </div>
-            <div class="hcin_queue">
-                <strong><?php echo esc_html( number_format_i18n( $pending ) ); ?></strong>
-                <span class="hcin_label">Задач в очереди
-                    <?php hcin_help( 'Как работает очередь', 'Плагин отправляет адреса в фоне. Когда сервис ответит, результат появится в журнале.' ); ?>
-                </span>
-            </div>
-        </header>
-        <nav class="hcin_nav" aria-label="Разделы SEO InstantIndex">
-            <?php foreach ( $tabs as $key => $label ) : ?>
-                <a href="<?php echo esc_url( hcin_admin_url( $key ) ); ?>" <?php if ( $tab === $key ) : ?>aria-current="page"<?php endif; ?>><?php echo esc_html( $label ); ?></a>
-            <?php endforeach; ?>
-        </nav>
-        <?php if ( $notice ) : ?>
-            <div class="notice notice-<?php echo esc_attr( $notice[0] ); ?> hcin_notice"><p><?php echo esc_html( $notice[1] ); ?></p></div>
-        <?php endif; ?>
-        <?php if ( $tab === 'settings' ) {
-            hcin_settings_view( $settings, $enabled );
-        } elseif ( $tab === 'submit' ) {
-            hcin_submit_view( $settings, $enabled );
-        } else {
-            $log = array_filter( (array) get_option( HCIN_LOG_OPT, [] ), static function ( $entry ): bool {
-                return ! empty( $entry['results'] );
-            } );
-            hcin_log_view( $log, $pending );
-        } ?>
+    <div class="wrap">
+        <hr class="wp-header-end">
+        <div class="hcin_admin">
+            <header class="hcin_header">
+                <div>
+                    <a class="hcin_brand" href="https://impik.dev">impik.dev</a>
+                    <h1>SEO InstantIndex</h1>
+                    <p>Сообщайте поисковым системам о новых и обновлённых страницах.</p>
+                </div>
+                <div class="hcin_queue">
+                    <strong><?php echo esc_html( number_format_i18n( $pending ) ); ?></strong>
+                    <span class="hcin_label">Задач в очереди
+                        <?php hcin_help( 'Как работает очередь', 'Плагин отправляет адреса в фоне. Когда сервис ответит, результат появится в журнале.' ); ?>
+                    </span>
+                </div>
+            </header>
+            <nav class="hcin_nav" aria-label="Разделы SEO InstantIndex">
+                <?php foreach ( $tabs as $key => $label ) : ?>
+                    <a href="<?php echo esc_url( hcin_admin_url( $key ) ); ?>" <?php if ( $tab === $key ) : ?>aria-current="page"<?php endif; ?>><?php echo esc_html( $label ); ?></a>
+                <?php endforeach; ?>
+            </nav>
+            <?php if ( $notice ) : ?>
+                <div class="notice notice-<?php echo esc_attr( $notice[0] ); ?> inline hcin_notice"><p><?php echo esc_html( $notice[1] ); ?></p></div>
+            <?php endif; ?>
+            <?php if ( $tab === 'settings' ) {
+                hcin_settings_view( $settings, $enabled );
+            } elseif ( $tab === 'submit' ) {
+                hcin_submit_view( $settings, $enabled );
+            } else {
+                $log = array_filter( (array) get_option( HCIN_LOG_OPT, [] ), static function ( $entry ): bool {
+                    return ! empty( $entry['results'] );
+                } );
+                hcin_log_view( $log, $pending );
+            } ?>
+        </div>
     </div>
     <?php
 }
