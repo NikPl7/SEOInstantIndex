@@ -1,84 +1,121 @@
 .hcin_admin {
-    --hcin-ink: #1d2327;
-    --hcin-muted: #50575e;
-    --hcin-border: #dcdcde;
-    --hcin-field-border: #8c8f94;
+    --hcin-font: system-ui, -apple-system, "Segoe UI", sans-serif;
+    --hcin-ink: #12161f;
+    --hcin-muted: #484d58;
+    --hcin-border: #d9dce5;
+    --hcin-field-border: #858a98;
     --hcin-surface: #fff;
-    --hcin-accent: var(--wp-admin-theme-color, #2271b1);
-    --hcin-accent-hover: var(--wp-admin-theme-color-darker-10, #135e96);
-    --hcin-accent-soft: #f0f6fc;
-    --hcin-neutral: #f0f0f1;
-    --hcin-on: #006b28;
-    --hcin-on-soft: #edfaef;
-    --hcin-error: #b32d2e;
-    --hcin-radius: 12px;
+    --hcin-panel: #f6f7fb;
+    --hcin-dark: #0a0b14;
+    --hcin-dark-muted: #b9bdca;
+    --hcin-dark-border: #3f4152;
+    --hcin-dark-panel: #1c1e2b;
+    --hcin-brand: #0bf272;
+    --hcin-accent: var(--hcin-brand);
+    --hcin-accent-ink: #0a0b14;
+    --hcin-link: #20563b;
+    --hcin-on: #12643b;
+    --hcin-on-soft: #e8f7ee;
+    --hcin-error: #a21e2c;
+    --hcin-radius: 18px;
+    --hcin-control-radius: clamp(6px, calc(var(--hcin-radius) - 6px), 16px);
     --hcin-gap: 20px;
+    --hcin-shadow: 0 12px 26px rgb(18 22 31 / 0.05);
+    max-width: 1300px;
     color: var(--hcin-ink);
+    font-family: var(--hcin-font);
+    font-size: 14px;
 }
 
-.hcin_admin h1,
-.hcin_admin h2 {
+.hcin_admin :is(h1, h2, h3) {
     color: inherit;
 }
 
 .hcin_admin h2 {
-    font-size: 18px;
-    line-height: 1.3;
+    font-size: 21px;
+    font-weight: 720;
+    letter-spacing: -0.025em;
+    line-height: 1.25;
     margin: 0;
 }
 
+.hcin_admin h3 {
+    font-size: 15px;
+    line-height: 1.35;
+    margin: 0;
+}
+
+.hcin_admin p {
+    font-size: inherit;
+}
+
+.hcin_admin a:not(.button) {
+    color: var(--hcin-link);
+    text-underline-offset: 3px;
+}
+
 .hcin_header {
-    background: var(--hcin-surface);
-    border: 1px solid var(--hcin-border);
+    background: radial-gradient(ellipse at top right, var(--hcin-dark-panel), var(--hcin-dark) 68%);
     border-radius: var(--hcin-radius);
+    color: var(--hcin-surface);
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: var(--hcin-gap);
     margin-top: var(--hcin-gap);
-    padding: 24px;
+    padding: clamp(20px, 3vw, 36px);
 }
 
-.hcin_brand {
-    color: var(--hcin-accent-hover);
-    font-size: 14px;
-    font-weight: 700;
+.hcin_header a.hcin_brand {
+    color: var(--hcin-brand);
+    display: inline-block;
+    font-size: 15px;
+    font-weight: 800;
+    letter-spacing: 0.035em;
     text-decoration: none;
 }
 
-.hcin_brand:hover {
+.hcin_header a.hcin_brand:hover {
     text-decoration: underline;
 }
 
 .hcin_header h1 {
-    font-size: clamp(24px, 4vw, 32px);
-    font-weight: 650;
-    line-height: 1.15;
-    margin: 8px 0;
+    font-size: clamp(26px, 4.3vw, 45px);
+    font-weight: 750;
+    letter-spacing: -0.055em;
+    line-height: 1.08;
+    margin: 10px 0;
     padding: 0;
 }
 
 .hcin_header p,
 .hcin_subtitle {
+    margin: 8px 0 0;
+    line-height: 1.5;
+}
+
+.hcin_header p {
+    color: var(--hcin-dark-muted);
+}
+
+.hcin_subtitle {
     color: var(--hcin-muted);
-    font-size: 13px;
-    margin: 6px 0 0;
 }
 
 .hcin_queue {
-    background: var(--hcin-accent-soft);
-    border-radius: calc(var(--hcin-radius) - 4px);
+    background: var(--hcin-dark-panel);
+    border: 1px solid var(--hcin-dark-border);
+    border-radius: var(--hcin-control-radius);
+    color: var(--hcin-dark-muted);
     display: grid;
-    justify-items: center;
-    gap: 4px;
+    gap: 3px;
     flex: 0 0 auto;
-    min-width: 86px;
-    padding: 10px;
+    padding: 14px 18px;
 }
 
 .hcin_queue strong {
-    color: var(--hcin-accent);
-    font-size: 22px;
+    color: var(--hcin-surface);
+    font-size: 26px;
     line-height: 1.15;
     font-variant-numeric: tabular-nums;
 }
@@ -86,30 +123,43 @@
 .hcin_nav {
     display: flex;
     flex-wrap: wrap;
-    gap: 12px;
+    gap: 4px;
     margin: var(--hcin-gap) 0;
-    padding-bottom: 8px;
-    border-bottom: 1px solid var(--hcin-border);
+    background: var(--hcin-surface);
+    border: 1px solid var(--hcin-border);
+    padding: 5px;
+    border-radius: var(--hcin-control-radius);
+    width: fit-content;
+    max-width: 100%;
+    box-sizing: border-box;
 }
 
-.hcin_nav a {
+.hcin_nav a:not(.button) {
     color: var(--hcin-muted);
     display: inline-block;
-    font-weight: 600;
+    font-weight: 650;
     text-decoration: none;
-    padding: 8px 12px;
-    border-radius: calc(var(--hcin-radius) - 4px);
+    padding: 8px 14px;
+    border-radius: calc(var(--hcin-control-radius) - 3px);
 }
 
-.hcin_nav a:hover,
+.hcin_nav a:hover {
+    background: var(--hcin-panel);
+}
+
 .hcin_nav a[aria-current="page"] {
-    background: var(--hcin-accent-soft);
-    color: var(--hcin-accent);
+    background: var(--hcin-dark);
+    color: var(--hcin-surface);
 }
 
-.hcin_admin :is(a, button, input, textarea):focus-visible {
-    outline: 2px solid var(--hcin-accent);
+.hcin_admin :is(a, button, input, textarea, summary, [tabindex]):focus-visible {
+    outline: 2px solid var(--hcin-on);
     outline-offset: 2px;
+    box-shadow: none;
+}
+
+.hcin_header :is(a, button):focus-visible {
+    outline-color: var(--hcin-surface);
 }
 
 .hcin_admin .hcin_notice {
@@ -126,8 +176,14 @@
     background: var(--hcin-surface);
     border: 1px solid var(--hcin-border);
     border-radius: var(--hcin-radius);
+    box-shadow: var(--hcin-shadow);
     min-width: 0;
-    padding: 22px;
+    padding: clamp(16px, 2vw, 26px);
+}
+
+.hcin_grid > .hcin_card {
+    display: flex;
+    flex-direction: column;
 }
 
 .hcin_card-head {
@@ -139,10 +195,11 @@
 }
 
 .hcin_status {
-    background: var(--hcin-neutral);
+    background: var(--hcin-panel);
     color: var(--hcin-muted);
-    font-weight: 600;
-    padding: 3px 9px;
+    font-size: 12px;
+    font-weight: 680;
+    padding: 4px 10px;
     border-radius: 999px;
 }
 
@@ -151,42 +208,103 @@
     color: var(--hcin-on);
 }
 
+.hcin_setup {
+    background: var(--hcin-panel);
+    border-radius: var(--hcin-control-radius);
+    padding: 15px;
+    margin-top: 18px;
+    flex: 1 0 auto;
+}
+
+.hcin_setup p {
+    color: var(--hcin-muted);
+    margin: 7px 0 12px;
+    line-height: 1.5;
+}
+
+.hcin_details {
+    margin: 12px 0 16px;
+}
+
+.hcin_details summary {
+    cursor: pointer;
+    width: fit-content;
+    max-width: 100%;
+    color: var(--hcin-link);
+    font-weight: 650;
+}
+
+.hcin_details summary:hover {
+    text-decoration: underline;
+}
+
+.hcin_details ol {
+    margin-top: 10px;
+}
+
+.hcin_card-settings {
+    border-top: 1px solid var(--hcin-border);
+    padding-top: 14px;
+}
+
+.hcin_label {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+}
+
 .hcin_check {
     display: flex;
-    align-items: baseline;
+    align-items: flex-start;
     gap: 8px;
-    margin-top: 12px;
+    margin-top: 8px;
+    line-height: 1.5;
+}
+
+.hcin_card-settings > .hcin_check {
+    margin-top: 0;
+    font-weight: 650;
 }
 
 .hcin_check input[type="checkbox"] {
+    appearance: auto;
+    accent-color: var(--hcin-on);
+    width: 17px;
+    height: 17px;
     flex: 0 0 auto;
-    margin: 0;
+    margin: 2px 0 0;
+}
+
+.hcin_check input[type="checkbox"]::before {
+    content: none;
 }
 
 .hcin_field {
+    font-weight: 650;
+    margin: 14px 0 5px;
+}
+
+.hcin_field:not(.hcin_label) {
     display: block;
-    font-weight: 600;
-    margin: 16px 0 5px;
 }
 
 .hcin_card input[type="text"],
 .hcin_card input[type="url"],
 .hcin_card textarea {
     border-color: var(--hcin-field-border);
-    border-radius: 6px;
+    border-radius: var(--hcin-control-radius);
     box-sizing: border-box;
     display: block;
     width: 100%;
     margin: 0;
+    min-height: 40px;
+    padding: 7px 10px;
 }
 
 .hcin_card textarea {
     font-family: ui-monospace, Consolas, monospace;
     resize: vertical;
-}
-
-.hcin_card p + textarea {
-    margin-top: 8px;
 }
 
 .hcin_card code,
@@ -195,28 +313,104 @@
 }
 
 .hcin_types {
-    margin: 18px 0 0;
+    margin: 13px 0 0;
 }
 
 .hcin_types legend {
-    font-weight: 600;
+    font-weight: 650;
 }
 
-.hcin_actions {
+.hcin_types .hcin_subtitle {
+    margin-top: 3px;
+}
+
+.hcin_actions,
+.hcin_save {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
     margin-top: 14px;
 }
 
-.hcin_admin .button-primary {
-    background: var(--hcin-accent);
-    border-color: var(--hcin-accent);
+.hcin_save {
+    justify-content: flex-end;
 }
 
-.hcin_admin .button-primary:not(:disabled):hover {
-    background: var(--hcin-accent-hover);
-    border-color: var(--hcin-accent-hover);
+.wp-core-ui .hcin_admin .button {
+    background: var(--hcin-surface);
+    border-color: var(--hcin-border);
+    border-radius: var(--hcin-control-radius);
+    color: var(--hcin-ink);
+    font-family: inherit;
+    font-weight: 660;
+    min-height: 40px;
+    padding: 8px 15px;
+    line-height: 1.5;
+    white-space: normal;
+}
+
+.wp-core-ui .hcin_admin .button:hover {
+    background: var(--hcin-panel);
+    border-color: var(--hcin-field-border);
+    color: var(--hcin-ink);
+}
+
+.wp-core-ui .hcin_admin .button.button-primary,
+.wp-core-ui .hcin_admin .button.button-primary:hover,
+.wp-core-ui .hcin_admin .button.button-primary:focus {
+    background: var(--hcin-accent);
+    border-color: var(--hcin-accent);
+    color: var(--hcin-accent-ink);
+}
+
+.wp-core-ui .hcin_admin .button.button-primary:hover {
+    box-shadow: inset 0 0 0 1px currentColor;
+}
+
+.hcin_help-trigger {
+    display: inline-grid;
+    place-items: center;
+    vertical-align: middle;
+    width: 25px;
+    height: 25px;
+    padding: 0;
+    border: 1px solid var(--hcin-border);
+    border-radius: 50%;
+    background: var(--hcin-surface);
+    color: var(--hcin-link);
+    font: 700 13px/1 var(--hcin-font);
+    cursor: help;
+}
+
+.hcin_help-trigger:hover,
+.hcin_help-trigger[aria-expanded="true"] {
+    border-color: currentColor;
+}
+
+.hcin_header .hcin_help-trigger {
+    color: var(--hcin-dark-muted);
+    border-color: var(--hcin-dark-border);
+    background: var(--hcin-dark);
+}
+
+.hcin_help-text {
+    position: fixed;
+    z-index: 100000;
+    box-sizing: border-box;
+    width: min(19rem, calc(100vw - 24px));
+    padding: 10px 12px;
+    border: 1px solid var(--hcin-dark-border);
+    border-radius: var(--hcin-control-radius);
+    background: var(--hcin-dark);
+    box-shadow: var(--hcin-shadow);
+    color: var(--hcin-surface);
+    font-size: 13px;
+    font-weight: 450;
+    line-height: 1.5;
+}
+
+.hcin_help-text[hidden] {
+    display: none;
 }
 
 .hcin_table {
@@ -238,15 +432,20 @@
 
 .hcin_table th {
     color: var(--hcin-muted);
+    background: var(--hcin-panel);
 }
 
 .hcin_table tr > :first-child {
     min-width: 94px;
 }
 
+.hcin_table-label {
+    display: none;
+}
+
 .hcin_http {
     color: var(--hcin-muted);
-    display: block;
+    margin-top: 2px;
 }
 
 .hcin_result-ok {
@@ -263,27 +462,69 @@
     }
 }
 
-@media (max-width: 480px) {
-    .hcin_header,
-    .hcin_card {
-        padding: 14px;
+@media (min-width: 1051px) {
+    .hcin_card-settings .hcin_subtitle {
+        min-height: 3em;
+    }
+}
+
+@media (max-width: 700px) {
+    .hcin_table :is(table, tbody, tr, td) {
+        display: block;
     }
 
+    .hcin_table thead {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip-path: inset(50%);
+        white-space: nowrap;
+    }
+
+    .hcin_table tr {
+        padding: 10px 0;
+        border-top: 1px solid var(--hcin-border);
+    }
+
+    .hcin_table td {
+        position: relative;
+        padding: 4px 0 4px 80px;
+        border: 0;
+    }
+
+    .hcin_table-label {
+        display: block;
+        position: absolute;
+        left: 0;
+        top: 4px;
+        color: var(--hcin-muted);
+        font-size: 13px;
+    }
+}
+
+@media (max-width: 560px) {
     .hcin_header {
         align-items: flex-start;
         flex-direction: column;
-        gap: 12px;
+        gap: 14px;
     }
 
     .hcin_queue {
         display: flex;
         align-items: center;
         gap: 8px;
-        padding: 8px 10px;
+        padding: 6px 10px;
     }
 
     .hcin_queue strong {
         font-size: 16px;
+    }
+
+    .hcin_nav a:not(.button) {
+        padding: 8px 10px;
     }
 
     .hcin_card input[type="text"],

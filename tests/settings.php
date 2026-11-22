@@ -32,6 +32,7 @@ function esc_html( $value ) { return htmlspecialchars( $value, ENT_QUOTES, 'UTF-
 function esc_attr( $value ) { return esc_html( $value ); }
 function esc_url( $value ) { return esc_html( $value ); }
 function wp_create_nonce( $action ) { return 'fixture'; }
+function wp_unique_id( $prefix ) { static $id = 0; return $prefix . ++$id; }
 function checked( $value ) { if ( $value ) echo 'checked'; }
 function number_format_i18n( $value ) { return (string) $value; }
 
@@ -79,6 +80,11 @@ hcin_admin_page();
 $html = ob_get_clean();
 verify( strpos( $html, 'FAKE_PRIVATE_KEY_NEW' ) === false, 'Private key leaked to HTML' );
 verify( strpos( $html, 'impik.dev' ) !== false, 'Author not shown' );
+verify( strpos( $html, 'Как подключить Google' ) !== false, 'Google setup help missing' );
+verify( hcin_admin_design_css( [] ) === '', 'Default design must work without a theme' );
+verify( hcin_admin_design_css( [ 'accent' => '#222222', 'radius' => 14, 'font_family' => 'Exo 2, system-ui' ] )
+    === '--hcin-accent:#222222;--hcin-accent-ink:#fff;--hcin-radius:14px;--hcin-font:Exo 2, system-ui;', 'Theme overrides not applied' );
+verify( hcin_admin_design_css( [ 'accent' => '#fff; }', 'radius' => 80, 'font_family' => 'url(https://example.test)' ] ) === '', 'Invalid design tokens must be ignored' );
 save( [ 'google_sa_remove' => '1' ] );
 verify( $opts[HCIN_OPT]['google_sa_json'] === '', 'Explicit removal failed' );
 
