@@ -316,9 +316,87 @@
     line-height: 1.5;
 }
 
-.hcin_card-settings > .hcin_check {
-    margin-top: 0;
+.hcin_switch {
+    --hcin-switch-width: 42px;
+    --hcin-switch-height: 24px;
+    display: inline-flex;
+    position: relative;
+    align-items: center;
+    gap: 9px;
+    cursor: pointer;
     font-weight: 650;
+}
+
+.hcin_switch input[type="checkbox"] {
+    position: absolute;
+    inset-inline-start: 0;
+    top: 50%;
+    width: var(--hcin-switch-width);
+    height: var(--hcin-switch-height);
+    margin: 0;
+    opacity: 0;
+    transform: translateY(-50%);
+}
+
+.hcin_switch-track {
+    display: inline-flex;
+    align-items: center;
+    box-sizing: border-box;
+    flex: 0 0 auto;
+    width: var(--hcin-switch-width);
+    height: var(--hcin-switch-height);
+    padding: 2px;
+    border: 1px solid var(--hcin-field-border);
+    border-radius: 999px;
+    background: var(--hcin-panel);
+}
+
+.hcin_switch-track::after {
+    content: "";
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--hcin-muted);
+}
+
+.hcin_switch input:checked + .hcin_switch-track {
+    justify-content: end;
+    border-color: var(--hcin-on);
+    background: var(--hcin-on);
+}
+
+.hcin_switch input:checked + .hcin_switch-track::after {
+    background: var(--hcin-surface);
+}
+
+.hcin_switch input:focus-visible + .hcin_switch-track {
+    outline: 2px solid var(--hcin-on);
+    outline-offset: 2px;
+}
+
+@media (forced-colors: active) {
+    .hcin_switch-track {
+        forced-color-adjust: none;
+        border-color: ButtonText;
+        background: Canvas;
+    }
+
+    .hcin_switch-track::after {
+        background: ButtonText;
+    }
+
+    .hcin_switch input:checked + .hcin_switch-track {
+        border-color: Highlight;
+        background: Highlight;
+    }
+
+    .hcin_switch input:checked + .hcin_switch-track::after {
+        background: HighlightText;
+    }
+
+    .hcin_switch input:focus-visible + .hcin_switch-track {
+        outline-color: Highlight;
+    }
 }
 
 .hcin_check input[type="checkbox"] {

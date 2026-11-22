@@ -206,6 +206,16 @@ function hcin_provider_status( bool $connected, bool $enabled ): void {
     <?php
 }
 
+function hcin_service_switch( string $name, string $label, bool $enabled ): void {
+    ?>
+    <label class="hcin_switch">
+        <input type="checkbox" role="switch" name="<?php echo esc_attr( $name ); ?>" value="1" <?php checked( $enabled ); ?>>
+        <span class="hcin_switch-track" aria-hidden="true"></span>
+        <span><?php echo esc_html( $label ); ?></span>
+    </label>
+    <?php
+}
+
 function hcin_type_fields( string $name, array $selected ): void {
     foreach ( hcin_post_types() as $slug => $type ) :
         ?>
@@ -264,7 +274,7 @@ function hcin_settings_view( array $settings, array $enabled ): void {
                     <?php endif; ?>
                 </details>
                 <div class="hcin_card-settings">
-                    <label class="hcin_check"><input type="checkbox" name="indexnow_enabled" value="1" <?php checked( $settings['indexnow_enabled'] ); ?>> Включить IndexNow</label>
+                    <?php hcin_service_switch( 'indexnow_enabled', 'Включить IndexNow', $settings['indexnow_enabled'] ); ?>
                     <fieldset class="hcin_types">
                         <legend>Что отправлять автоматически</legend>
                         <p class="hcin_subtitle">При публикации и обновлении выбранных типов.</p>
@@ -309,7 +319,7 @@ function hcin_settings_view( array $settings, array $enabled ): void {
                     <a href="https://developers.google.com/search/apis/indexing-api/v3/quickstart">Инструкция Google</a>
                 </details>
                 <div class="hcin_card-settings">
-                    <label class="hcin_check"><input type="checkbox" name="google_enabled" value="1" <?php checked( $settings['google_enabled'] ); ?>> Включить Google Indexing API</label>
+                    <?php hcin_service_switch( 'google_enabled', 'Включить Google Indexing API', $settings['google_enabled'] ); ?>
                     <fieldset class="hcin_types">
                         <legend>Что отправлять автоматически</legend>
                         <p class="hcin_subtitle">Выбирайте типы, где публикуются только подходящие вакансии или трансляции.</p>
