@@ -5,6 +5,7 @@ define( 'ABSPATH', '/nonexistent/' );
 $hooks = $opts = $transients = [];
 function add_action( $name, $callback, ...$args ) { $GLOBALS['hooks'][$name] = $callback; }
 function add_filter( ...$args ) {}
+function plugin_basename( $file ) { return 'seo-instantindex/' . basename( $file ); }
 function register_deactivation_hook( ...$args ) {}
 function get_option( $key, $default = false ) { return $GLOBALS['opts'][$key] ?? $default; }
 function update_option( $key, $value ) { $GLOBALS['opts'][$key] = $value; return true; }
