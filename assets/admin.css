@@ -195,7 +195,7 @@
     gap: var(--hcin-gap);
 }
 
-.hcin_grid:has(.hcin_details[open]) {
+.hcin_grid-settings {
     align-items: start;
 }
 
@@ -240,7 +240,6 @@
     border-radius: var(--hcin-control-radius);
     padding: 15px;
     margin-top: 18px;
-    flex: 1 0 auto;
 }
 
 .hcin_setup p {

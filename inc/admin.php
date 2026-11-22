@@ -236,7 +236,7 @@ function hcin_settings_view( array $settings, array $enabled ): void {
     </form>
     <form method="post" novalidate>
         <?php hcin_nonce(); ?>
-        <div class="hcin_grid">
+        <div class="hcin_grid hcin_grid-settings">
             <section class="hcin_card" aria-labelledby="hcin-indexnow">
                 <header class="hcin_card-head">
                     <h2 id="hcin-indexnow">IndexNow</h2>

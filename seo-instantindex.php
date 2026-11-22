@@ -2,7 +2,7 @@
 /**
  * Plugin Name: SEO InstantIndex
  * Description: Отправляет URL в IndexNow и Google Indexing API. Настройки доступны в разделе «Инструменты».
- * Version: 1.3.2
+ * Version: 1.3.3
  * Requires at least: 5.6
  * Requires PHP: 7.4
  * Author: impik.dev
@@ -11,7 +11,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'HCIN_VERSION', '1.3.2' );
+define( 'HCIN_VERSION', '1.3.3' );
 define( 'HCIN_OPT', 'hopcott_indexnow_settings' );
 define( 'HCIN_LOG_OPT', 'hopcott_indexnow_log' );
 define( 'HCIN_LOG_MAX', 300 );
